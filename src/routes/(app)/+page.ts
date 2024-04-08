@@ -1,10 +1,7 @@
-import type { User } from "../../types/user"
+import supabase from "../../config/supabaseClient"
 
-export function load(): { user: User } {
-  const user: User = {
-    name: "john",
-    email: "john@doe.com",
-  }
+export async function load() {
+  const { data, error } = await supabase.from("todos").select()
 
-  return { user }
+  return { todos: data, error }
 }
