@@ -30,9 +30,7 @@
 <h1>Details</h1>
 <h1>Todo ID: {todoId}</h1>
 {#if singleTodo}
-  <p>{singleTodo.id}</p>
-  <p>{singleTodo.created_at}</p>
-  <p>{singleTodo.title}</p>
-  <p>{singleTodo.completed}</p>
-  <p>{singleTodo.description}</p>
+  {#each Object.entries(singleTodo) as [key, value]}
+    <p>{key}: {value}</p>
+  {/each}
 {/if}
