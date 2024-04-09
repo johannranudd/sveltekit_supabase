@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { signUpNewUser } from "~/services/auth"
+
   let fullName = ""
   let email = ""
   let password = ""
@@ -8,15 +10,23 @@
     return regex.test(email)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!isValidEmail(email)) {
       alert("Please enter a valid email address.")
       return
     }
+    if (!fullName || !password) {
+      alert("Please enter you full name, email and password")
+      return
+    }
 
-    console.log({ fullName, email, password })
+    const registerSuccess = await signUpNewUser(email, password)
+    if (registerSuccess) {
+      alert(`User has been registered and an email has been sent to ${registerSuccess}`)
+    }
     resetForm()
   }
+
   function resetForm() {
     fullName = ""
     email = ""
