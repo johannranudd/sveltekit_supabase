@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores"
-  import supabase from "../../../../config/supabaseClient"
-  import type { Todo } from "../../../../types/todos"
+  import supabase from "~/config/supabaseClient"
+  import type { Todo } from "~/types/todos"
 
   let todoId = ""
   let singleTodo: Todo | null = null
@@ -12,9 +12,7 @@
   }
 
   async function updateTodo() {
-    const { data, error } = await supabase.from("todos").select("*").eq("id", todoId).single() // Use .single() if you're expecting only one record to match the query
-
-    console.log({ data, error })
+    const { data, error } = await supabase.from("todos").select("*").eq("id", todoId).single()
 
     if (error) {
       console.error("Error fetching todo:", error)
@@ -22,8 +20,6 @@
     }
 
     singleTodo = data
-    console.log(data)
-    console.log(singleTodo)
   }
 </script>
 
