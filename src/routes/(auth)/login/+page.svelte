@@ -1,50 +1,32 @@
 <script lang="ts">
-  import { signInWithEmail } from "~/services/auth"
-  import { goto } from "$app/navigation"
+  import { superForm } from "sveltekit-superforms"
+  import type { PageData } from "./$types"
 
-  let email = ""
-  let password = ""
+  export let data: PageData
 
-  const isValidEmail = (email: string): boolean => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
-    return regex.test(email)
-  }
-
-  const handleSubmit = async () => {
-    if (!isValidEmail(email)) {
-      alert("Please enter a valid email address.")
-      return
-    }
-    if (!password) {
-      alert("Please enter your password")
-      return
-    }
-
-    const data = await signInWithEmail(email, password)
-    if (data && data.email && data.access_token) {
-      //   localStorage.setItem("user", JSON.stringify({ email: data.email, access_token: data.access_token }))
-      goto("/")
-    }
-    resetForm()
-  }
-
-  function resetForm() {
-    email = ""
-    password = ""
-  }
+  const { form, message, enhance, errors } = superForm(data.form)
 </script>
 
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <form class="w-full max-w-md p-8 space-y-4 bg-white rounded shadow-lg" on:submit|preventDefault={handleSubmit}>
+  <form method="POST" action="/logout">
+    <button type="submit">Logout</button>
+  </form>
+
+  <form class="w-full max-w-md p-8 space-y-4 bg-white rounded shadow-lg" method="POST" use:enhance>
+    <span>message: {$message}</span>
     <div class="mb-4">
       <label for="email" class="block mb-2 text-sm font-bold text-gray-700">Email</label>
       <input
         type="email"
         id="email"
-        bind:value={email}
+        name="email"
+        bind:value={$form.email}
         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
         required
       />
+      {#if $errors.email}
+        <span class="text-sm text-destructive">{$errors.email}</span>
+      {/if}
     </div>
 
     <div class="mb-6">
@@ -52,10 +34,14 @@
       <input
         type="password"
         id="password"
-        bind:value={password}
+        name="password"
+        bind:value={$form.password}
         class="w-full px-3 py-2 mb-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
         required
       />
+      {#if $errors.password}
+        <span class="text-sm text-destructive">{$errors.password}</span>
+      {/if}
     </div>
 
     <div class="flex flex-col gap-4">

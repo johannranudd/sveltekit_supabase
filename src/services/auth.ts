@@ -27,7 +27,7 @@ export async function signInWithEmail(email: string, password: string) {
     })
 
     if (error) {
-      throw error
+      return { error }
     } else if (data && data.user && data.session && data.user.email) {
       return { email: data.user.email, access_token: data.session.access_token }
     }
