@@ -5,8 +5,11 @@
     </div>
     <ul class="flex items-center gap-4 list-none">
       <li><a class="no-underline" href="./">Home</a></li>
-      <li><a class="no-underline" href="./about">About</a></li>
-      <li><a class="no-underline" href="./products">Products</a></li>
+      <li>
+        <form method="POST" action="/logout">
+          <button type="submit">Logout</button>
+        </form>
+      </li>
     </ul>
   </nav>
 </header>

@@ -8,12 +8,10 @@
 </script>
 
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <form method="POST" action="/logout">
-    <button type="submit">Logout</button>
-  </form>
-
-  <form class="w-full max-w-md p-8 space-y-4 bg-white rounded shadow-lg" method="POST" use:enhance>
-    <span>message: {$message}</span>
+  <form method="POST" use:enhance class="w-full max-w-md p-8 space-y-4 bg-white rounded shadow-lg">
+    {#if $message}
+      <span>{$message}</span>
+    {/if}
     <div class="mb-4">
       <label for="email" class="block mb-2 text-sm font-bold text-gray-700">Email</label>
       <input
